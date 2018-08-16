@@ -1,18 +1,8 @@
 package com.applitools.utils;
 
 import com.sun.glass.ui.Size;
-import com.sun.xml.internal.ws.util.StringUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.commons.lang.StringUtils;
 
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
@@ -20,11 +10,14 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Utils {
     public static <T> T selectNotNull(T... vars) {
@@ -44,10 +37,10 @@ public class Utils {
             } catch (IllegalArgumentException ex) {
             }
         }
-        throw new RuntimeException(String.format("Unable to parse value %s for enum %s", string, c.getName()));
+        throw new RuntimeException(String.format("Unable to parse value %s for enum %s", string, c));
     }
 
-    public static String getEnumValues(Class type) {
+    public static <T extends Enum<T>> String getEnumValues(Class<T> type) {
         StringBuilder sb = new StringBuilder();
         for (Object val : EnumSet.allOf(type)) {
             sb.append(StringUtils.capitalize(val.toString().toLowerCase()));
@@ -83,12 +76,10 @@ public class Utils {
     }
 
     public static void createAnimatedGif(List<BufferedImage> images, File target, int timeBetweenFrames) throws IOException {
-        ImageOutputStream output = new FileImageOutputStream(target);
         GifSequenceWriter writer = null;
 
-        Size max = getMaxSize(images);
-
-        try {
+        try (ImageOutputStream output = new FileImageOutputStream(target)) {
+            Size max = getMaxSize(images);
             for (BufferedImage image : images) {
                 BufferedImage normalized = new BufferedImage(max.width, max.height, image.getType());
                 normalized.getGraphics().drawImage(image, 0, 0, null);
@@ -96,8 +87,9 @@ public class Utils {
                 writer.writeToSequence(normalized);
             }
         } finally {
-            writer.close();
-            output.close();
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
 
@@ -111,7 +103,7 @@ public class Utils {
     }
 
     public static String toFolderName(String name) {
-        String foldername = new String(name);
+        String foldername = name;
         foldername = foldername.replaceAll("https?:", "");
         foldername = foldername.replaceAll("www\\.", "");
         foldername = foldername.replaceAll("/", "");
