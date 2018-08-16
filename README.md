@@ -28,7 +28,7 @@ The cookie value can be seen with _Developer Tools_ of your browser.
 * [Generate test playback](#generate-test-playback)
 * [Download test diffs](#download-test-diffs)
 * [Download test images](#download-test-images)
-* [Generating batch(es) Report](#generating-batches-Report)
+* [Generating batch(es) Report](#Generating-batch(es)-Report)
 * [Administration](#administration)
 * [Copy branch](#copy-branch)
 
