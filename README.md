@@ -15,6 +15,14 @@ The general syntax is derived from the fact that the EyesUtilities is built in J
 As a result every cli call should start with:
 >Java -jar EyesUtilities.jar [command] [command specific parametes...]
 
+## Which ResultUrl shall I use?
+Parameter _ResultUrl_ should be taken from Applitools management application. 
+E.g. https://eyes.applitools.com/app/test-results/00000251874702836708
+
+## What is EntKey and how can I receive one?
+Parameter _EntKey_ is the value of **access-key** cookie when you are logged in the Applitools management application. 
+The cookie value can be seen with _Developer Tools_ of your browser.  
+ 
 ## Appendix
 * [Generate steps animation](#generate-steps-animation)
 * [Generate test playback](#generate-test-playback)
