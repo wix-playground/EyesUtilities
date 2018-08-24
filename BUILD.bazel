@@ -1,0 +1,19 @@
+package(default_visibility = ["//visibility:public"])
+
+scala_library(
+    name = "main_dependencies",
+)
+
+scala_library(
+    name = "tests_dependencies",
+    testonly = 1,
+    deps = [
+        "main_dependencies",
+        "@junit_junit//jar",
+    ],
+)
+
+filegroup(
+    name = "coordinates",
+    srcs = ["MANIFEST.MF"],
+)
