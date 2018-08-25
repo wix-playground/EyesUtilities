@@ -1,7 +1,7 @@
 startup --host_jvm_args=-Dbazel.DigestFunction=SHA256
 build --strategy=Scalac=worker
 build --strict_proto_deps=off
-build --strict_java_deps=warn
+build --strict_java_deps=error
 test --strategy=Scalac=worker
 test --test_output=errors
 test --test_arg=--jvm_flags=-Dcom.google.testing.junit.runner.shouldInstallTestSecurityManager=false
