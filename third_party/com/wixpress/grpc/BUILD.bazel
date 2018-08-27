@@ -1,0 +1,14 @@
+licenses(["reciprocal"])
+
+package(default_visibility = ["//visibility:public"])
+
+scala_import(
+    name = "dependencies",
+    tags = ["manual"],
+    exports = [
+        "@com_thesamet_scalapb_scalapb_runtime_grpc_2_12//jar",
+        "@com_wixpress_grpc_extensions//jar",
+        "@com_wixpress_grpc_infra//jar",
+        "@org_scala_lang_scala_library//jar",
+    ],
+)
